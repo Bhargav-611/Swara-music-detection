@@ -16,7 +16,7 @@ audio, sr = preprocess_audio(audio_path)
 spec = generate_spectrogram(audio, sr)
 spec_db = magnitude_to_db(spec)
 
-peaks = find_peaks(spec_db)
+peaks = find_peaks(spec_db, amp_min=-40)
 
 print("Number of peaks detected:", len(peaks))
 
@@ -35,7 +35,23 @@ librosa.display.specshow(
     y_axis="hz"
 )
 
-plt.scatter(times_sec, freqs_hz, s=1, c="cyan", label="Peaks")
-plt.title("Spectrogram with Peak Constellation")
-plt.tight_layout()
-plt.show()
+# show peaks
+
+# plt.scatter(times_sec, freqs_hz, s=1, c="cyan", label="Peaks")
+# plt.title("Spectrogram with Peak Constellation")
+# plt.tight_layout()
+# plt.show()
+
+# Convert peaks to (time_sec, freq_hz)
+peaks_converted = list(zip(times_sec, freqs_hz))
+
+
+from fingerprint import generate_fingerprints
+
+fingerprints = generate_fingerprints(peaks_converted, 
+                                    fan_value=10,
+                                    min_time_delta=0.1,
+                                    max_time_delta=3.0)
+
+print("Total fingerprints generated:", len(fingerprints))
+print("Sample fingerprints:", fingerprints[:5])
