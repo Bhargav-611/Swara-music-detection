@@ -3,21 +3,26 @@ from db.connection import get_connection
 class FingerprintDAO:
 
     @staticmethod
-    def insert_song(title, artist):
+    def insert_song(title, artist, audio_url=None):
         conn = get_connection()
         cur = conn.cursor()
 
         cur.execute(
-            "INSERT INTO songs (title, artist) VALUES (%s, %s) RETURNING id",
-            (title, artist)
+            """
+            INSERT INTO songs (title, artist, audio_url)
+            VALUES (%s, %s, %s)
+            RETURNING id
+            """,
+            (title, artist, audio_url)
         )
-        song_id = cur.fetchone()[0]
 
+        song_id = cur.fetchone()[0]
         conn.commit()
         cur.close()
         conn.close()
 
         return song_id
+
 
     @staticmethod
     def insert_fingerprints(song_id, fingerprints):
