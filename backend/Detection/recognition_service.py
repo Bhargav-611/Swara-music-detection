@@ -56,7 +56,7 @@ if __name__ == "__main__":
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
     clip_path = os.path.join(
-        BASE_DIR, "..", "..", "data", "songs", "adhiveshan_smallclip.wav"
+        BASE_DIR, "..", "..", "data", "songs", "kalank_clip.wav"
     )
 
     result = recognize_song(clip_path)
@@ -68,3 +68,4 @@ if __name__ == "__main__":
         print("✅ Match score:", score)
     else:
         print("❌ No match found")
+    

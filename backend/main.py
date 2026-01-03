@@ -8,7 +8,7 @@ import os
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 audio_path = os.path.join(
-    BASE_DIR, "..", "data", "songs", "adhiveshan.wav"
+    BASE_DIR, "..", "data", "songs", "kalank.wav"
 )
 
 # song name
@@ -68,23 +68,23 @@ from db.fingerprint_dao import FingerprintDAO
 # remove comment to store in db
 
 # 1. Insert song metadata
-# song_id = FingerprintDAO.insert_song(
-#     title=song_name,
-#     artist="BAPS"
-# )
+song_id = FingerprintDAO.insert_song(
+    title=song_name,
+    artist="Arjit Singh",
+)
 
 # # 2. Insert fingerprints
 FingerprintDAO.insert_fingerprints(song_id, fingerprints)
 
 print("Fingerprints stored for song_id:", song_id)
 
-# print("Sample fingerprints:", fingerprints[:5])
+print("Sample fingerprints:", fingerprints[:5])
 
 test_hash = fingerprints[53][0]   # first hash
 
 results = FingerprintDAO.query_hash(test_hash)
 
-# print("Query hash:", test_hash)
-# print("Results from DB:", results[:10])
+print("Query hash:", test_hash)
+print("Results from DB:", results[:10])
 
 
