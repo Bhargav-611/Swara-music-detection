@@ -8,7 +8,7 @@ import os
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 audio_path = os.path.join(
-    BASE_DIR, "..", "data", "songs", "song1.wav"
+    BASE_DIR, "..", "data", "songs", "adhiveshan.wav"
 )
 
 audio, sr = preprocess_audio(audio_path)
