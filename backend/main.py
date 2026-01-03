@@ -11,6 +11,10 @@ audio_path = os.path.join(
     BASE_DIR, "..", "data", "songs", "adhiveshan.wav"
 )
 
+# song name
+song_name = os.path.splitext(os.path.basename(audio_path))[0]
+
+
 audio, sr = preprocess_audio(audio_path)
 
 spec = generate_spectrogram(audio, sr)
@@ -65,7 +69,7 @@ from db.fingerprint_dao import FingerprintDAO
 
 # 1. Insert song metadata
 # song_id = FingerprintDAO.insert_song(
-#     title="jay hoo",
+#     title=song_name,
 #     artist="BAPS"
 # )
 
@@ -74,11 +78,13 @@ from db.fingerprint_dao import FingerprintDAO
 
 # print("Fingerprints stored for song_id:", song_id)
 
-print("Sample fingerprints:", fingerprints[:5])
+# print("Sample fingerprints:", fingerprints[:5])
 
-test_hash = fingerprints[0][0]   # first hash
+test_hash = fingerprints[53][0]   # first hash
 
 results = FingerprintDAO.query_hash(test_hash)
 
-print("Query hash:", test_hash)
-print("Results from DB:", results[:10])
+# print("Query hash:", test_hash)
+# print("Results from DB:", results[:10])
+
+
