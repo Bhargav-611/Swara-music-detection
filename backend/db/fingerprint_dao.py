@@ -1,4 +1,5 @@
-from db.connection import get_connection
+from backend.db.connection import get_connection
+
 
 class FingerprintDAO:
 

@@ -64,15 +64,15 @@ from db.fingerprint_dao import FingerprintDAO
 # remove comment to store in db
 
 # 1. Insert song metadata
-# song_id = FingerprintDAO.insert_song(
-#     title="jay hoo",
-#     artist="BAPS"
-# )
+song_id = FingerprintDAO.insert_song(
+    title="jay hoo",
+    artist="BAPS"
+)
 
 # # 2. Insert fingerprints
-# FingerprintDAO.insert_fingerprints(song_id, fingerprints)
+FingerprintDAO.insert_fingerprints(song_id, fingerprints)
 
-# print("Fingerprints stored for song_id:", song_id)
+print("Fingerprints stored for song_id:", song_id)
 
 print("Sample fingerprints:", fingerprints[:5])
 
