@@ -1,20 +1,20 @@
-from backend.db.connection import get_connection
+from db.connection import get_connection
 
 
 class FingerprintDAO:
 
     @staticmethod
-    def insert_song(title, artist, audio_url=None):
+    def insert_song(title, audio_url=None):
         conn = get_connection()
         cur = conn.cursor()
 
         cur.execute(
             """
-            INSERT INTO songs (title, artist, audio_url)
-            VALUES (%s, %s, %s)
+            INSERT INTO songs (title, audio_url)
+            VALUES (%s, %s)
             RETURNING id
             """,
-            (title, artist, audio_url)
+            (title, audio_url)
         )
 
         song_id = cur.fetchone()[0]

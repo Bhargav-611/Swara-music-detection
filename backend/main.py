@@ -29,12 +29,6 @@ MAX_TIME_DELTA = 3.0
 
 def process_song(audio_path, conditon=False):
 
-    # extract song name from path
-    song_name = os.path.splitext(
-        os.path.basename(audio_path)
-    )[0]
-
-
     # 1️⃣ Audio Preprocessing
     audio, sr = preprocess_audio(audio_path)
 
@@ -55,7 +49,7 @@ def process_song(audio_path, conditon=False):
 
     print("Number of peaks detected:", len(peaks))
 
-    if conditon & len(peaks) < 500:
+    if conditon and len(peaks) < 500:
         return False, "Too few peaks detected"
 
 
@@ -76,10 +70,10 @@ def process_song(audio_path, conditon=False):
     print("Total fingerprints generated:", len(fingerprints))
     print("Sample fingerprints:", fingerprints[:5])
 
-    if conditon & len(fingerprints) < 1000:
+    if conditon and len(fingerprints) < 1000:
         return False, "Insufficient fingerprints"
 
-    return fingerprints, song_name
+    return fingerprints
 
     
 
