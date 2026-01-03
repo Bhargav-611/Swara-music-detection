@@ -1,10 +1,13 @@
 import psycopg2
+from dotenv import load_dotenv
+import os
 
+load_dotenv()
 def get_connection():
     return psycopg2.connect(
-        dbname="shazam_db",
-        user="postgres",
-        password="Tilak1604",
-        host="localhost",
-        port="5432"
+        dbname=os.environ.get("DB_NAME"),
+        user=os.environ.get("DB_USER"),
+        password=os.environ.get("DB_PASSWORD"),
+        host=os.environ.get("DB_HOST"),
+        port=os.environ.get("DB_PORT")
     )
