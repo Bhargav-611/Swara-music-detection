@@ -3,3 +3,4 @@ scipy
 librosa
 matplotlib
 soundfile
+psycopg2-binary

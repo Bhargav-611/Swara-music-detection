@@ -27,6 +27,6 @@ def generate_fingerprints(peaks, fan_value=5,
                 hash_input = f"{int(f1)}|{int(f2)}|{round(delta_t, 2)}"
                 hash_val = hashlib.sha1(hash_input.encode()).hexdigest()[:20]
 
-                fingerprints.append((hash_val, t1))
+                fingerprints.append((hash_val, float(t1)))
 
     return fingerprints

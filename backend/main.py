@@ -46,6 +46,7 @@ librosa.display.specshow(
 peaks_converted = list(zip(times_sec, freqs_hz))
 
 
+# generate_fingerprints (fan_value=10(5->low, 15->high), min_time_delta=0.1, max_time_delta=3.0)
 from fingerprint import generate_fingerprints
 
 fingerprints = generate_fingerprints(peaks_converted, 
@@ -55,3 +56,29 @@ fingerprints = generate_fingerprints(peaks_converted,
 
 print("Total fingerprints generated:", len(fingerprints))
 print("Sample fingerprints:", fingerprints[:5])
+
+
+# store in db
+from db.fingerprint_dao import FingerprintDAO
+
+# remove comment to store in db
+
+# 1. Insert song metadata
+# song_id = FingerprintDAO.insert_song(
+#     title="jay hoo",
+#     artist="BAPS"
+# )
+
+# # 2. Insert fingerprints
+# FingerprintDAO.insert_fingerprints(song_id, fingerprints)
+
+# print("Fingerprints stored for song_id:", song_id)
+
+print("Sample fingerprints:", fingerprints[:5])
+
+test_hash = fingerprints[0][0]   # first hash
+
+results = FingerprintDAO.query_hash(test_hash)
+
+print("Query hash:", test_hash)
+print("Results from DB:", results[:10])
