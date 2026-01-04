@@ -1,0 +1,77 @@
+.song-recognition {
+  margin-bottom: 2rem;
+}
+
+.recording-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.timer {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ef4444;
+  font-variant-numeric: tabular-nums;
+}
+
+.file-upload-section {
+  margin: 1.5rem 0;
+}
+
+.file-label {
+  display: inline-block;
+  padding: 0.875rem 2rem;
+  background: #f8fafc;
+  border: 2px dashed #e2e8f0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-weight: 500;
+  color: #1e293b;
+}
+
+.file-label:hover {
+  background: #f1f5f9;
+  border-color: #6366f1;
+}
+
+.file-name {
+  margin-top: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: #f8fafc;
+  border-radius: 6px;
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+.audio-preview {
+  width: 100%;
+  margin-top: 1rem;
+  border-radius: 8px;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.recording-controls .btn-record {
+  animation: recording 1.5s ease-in-out infinite;
+}
+
+@keyframes recording {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
