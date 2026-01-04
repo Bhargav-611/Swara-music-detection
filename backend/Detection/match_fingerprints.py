@@ -1,4 +1,4 @@
-from backend.db.fingerprint_dao import FingerprintDAO
+from db.fingerprint_dao import FingerprintDAO
 from collections import defaultdict
 
 def match_fingerprints(clip_fingerprints):

@@ -55,3 +55,47 @@ class FingerprintDAO:
         conn.close()
 
         return results
+
+    @staticmethod
+    def get_song_by_id(song_id):
+        conn = get_connection()
+        cur = conn.cursor()
+
+        cur.execute(
+            "SELECT id, title, audio_url FROM songs WHERE id = %s",
+            (song_id,)
+        )
+
+        result = cur.fetchone()
+        cur.close()
+        conn.close()
+
+        if result:
+            return {
+                "id": result[0],
+                "title": result[1],
+                "audio_url": result[2]
+            }
+        return None
+
+    @staticmethod
+    def get_song_by_url(audio_url):
+        conn = get_connection()
+        cur = conn.cursor()
+
+        cur.execute(
+            "SELECT id, title, audio_url FROM songs WHERE audio_url = %s",
+            (audio_url,)
+        )
+
+        result = cur.fetchone()
+        cur.close()
+        conn.close()
+
+        if result:
+            return {
+                "id": result[0],
+                "title": result[1],
+                "audio_url": result[2]
+            }
+        return None
