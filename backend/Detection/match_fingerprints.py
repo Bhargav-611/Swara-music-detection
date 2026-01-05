@@ -1,19 +1,23 @@
-from db.fingerprint_dao import FingerprintDAO
 from collections import defaultdict
+from db.fingerprint_dao import FingerprintDAO
 
 def match_fingerprints(clip_fingerprints):
-    song_match_count = defaultdict(int)
+    # 1️⃣ Extract only hashes from clip
+    clip_hashes = [h for h, _ in clip_fingerprints]
 
-    for hash_value, _ in clip_fingerprints:
-        matches = FingerprintDAO.query_hash(hash_value)
+    # 2️⃣ ONE database query
+    db_matches = FingerprintDAO.query_hashes_bulk(clip_hashes)
 
-        for song_id, _ in matches:
-            song_match_count[song_id] += 1
-
-    if not song_match_count:
+    if not db_matches:
         return None
 
-    # 3️⃣ Find best matching song
+    # 3️⃣ Voting
+    song_match_count = defaultdict(int)
+
+    for hash_value, song_id, _ in db_matches:
+        song_match_count[song_id] += 1
+
+    # 4️⃣ Find best matching song
     best_song_id = max(song_match_count, key=song_match_count.get)
     best_score = song_match_count[best_song_id]
 

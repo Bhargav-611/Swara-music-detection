@@ -99,3 +99,25 @@ class FingerprintDAO:
                 "audio_url": result[2]
             }
         return None
+    
+    @staticmethod
+    def query_hashes_bulk(hash_list):
+        """
+        Optimized bulk fingerprint lookup
+        """
+        conn = get_connection()
+        cur = conn.cursor()
+
+        query = """
+            SELECT hash, song_id, time_offset
+            FROM fingerprints
+            WHERE hash = ANY(%s)
+        """
+
+        cur.execute(query, (hash_list,))
+        results = cur.fetchall()
+
+        cur.close()
+        conn.close()
+
+        return results
