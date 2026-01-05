@@ -1,7 +1,15 @@
+import io
+import binascii
 from db.connection import get_connection
 
 
 class FingerprintDAO:
+
+    def hex_to_bytes(h):
+        # h may be escaped-string or hex-string
+        if h.startswith("\\x"):
+            h = h[2:]
+        return bytes.fromhex(h)
 
     @staticmethod
     def insert_song(title, audio_url=None):
@@ -30,9 +38,26 @@ class FingerprintDAO:
         conn = get_connection()
         cur = conn.cursor()
 
-        cur.executemany(
-            "INSERT INTO fingerprints (hash, song_id, time_offset) VALUES (%s, %s, %s)",
-            [(h, song_id, float(t)) for h, t in fingerprints]
+        buffer = io.StringIO()
+
+        for h, t in fingerprints:
+            # 🔴 h looks like '\xf6\x85\xc9...'
+            # Convert it to HEX safely
+            hex_hash = h.encode("latin1").hex()
+
+            buffer.write(
+                f"\\x{hex_hash}\t{int(song_id)}\t{float(t)}\n"
+            )
+        print(repr(buffer.getvalue().splitlines()[0]))
+
+        buffer.seek(0)
+        print(repr(buffer.getvalue().splitlines()[0]))
+
+        cur.copy_from(
+            buffer,
+            "fingerprints",
+            sep="\t",
+            columns=("hash", "song_id", "time_offset")
         )
 
         conn.commit()
@@ -44,17 +69,19 @@ class FingerprintDAO:
         conn = get_connection()
         cur = conn.cursor()
 
+        hash_bytes = bytes.fromhex(hash_value)
+
         cur.execute(
             "SELECT song_id, time_offset FROM fingerprints WHERE hash = %s",
-            (hash_value,)
+            (hash_bytes,)
         )
 
         results = cur.fetchall()
-
         cur.close()
         conn.close()
 
         return results
+
 
     @staticmethod
     def get_song_by_id(song_id):
@@ -103,10 +130,12 @@ class FingerprintDAO:
     @staticmethod
     def query_hashes_bulk(hash_list):
         """
-        Optimized bulk fingerprint lookup
+        hash_list: list of HEX STRINGS
         """
         conn = get_connection()
         cur = conn.cursor()
+
+        hash_bytes_list = [bytes.fromhex(h) for h in hash_list]
 
         query = """
             SELECT hash, song_id, time_offset
@@ -114,7 +143,7 @@ class FingerprintDAO:
             WHERE hash = ANY(%s)
         """
 
-        cur.execute(query, (hash_list,))
+        cur.execute(query, (hash_bytes_list,))
         results = cur.fetchall()
 
         cur.close()

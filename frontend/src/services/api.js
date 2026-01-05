@@ -9,7 +9,7 @@ export const api = {
       
       // Add timeout to prevent hanging (increased to 30 seconds)
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
+      // const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
       
       const response = await fetch(`${API_BASE_URL}/upload-youtube`, {
         method: 'POST',
@@ -20,7 +20,7 @@ export const api = {
         signal: controller.signal,
       });
       
-      clearTimeout(timeoutId);
+      // clearTimeout(timeoutId);
       
       console.log('Response status:', response.status);
       console.log('Response ok:', response.ok);
